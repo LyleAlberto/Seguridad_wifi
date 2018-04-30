@@ -17,7 +17,7 @@ boolean alreadyConnected = false; // whether or not the client was connected pre
 
 void setup() {
   Serial.begin(115200);
-  
+  WiFi.disconnect();
   boolean result = WiFi.softAP("ESPsoftAP_01", "pass-to-soft-AP");
   if (result == true) {
     Serial.println("Ready");
@@ -69,7 +69,7 @@ void loop() {
           
             char pass[stringresponse1.length()];
             stringresponse1.toCharArray(pass, stringresponse1.length()-8);
-            server.close();
+            //server.close();
             //WiFi.softAPdisconnect();
             if (!alreadyConnected) {
               wificonnect(id,pass);
@@ -91,16 +91,17 @@ void loop() {
 void wificonnect(const char* ssid, const char* password) {
   Serial.print(ssid);
   Serial.println(password);
-//  WiFi.begin(ssid, password);
-//  while (WiFi.status() != WL_CONNECTED) {
-//    Serial.println(WiFi.status());
-//    Serial.println(WL_DISCONNECTED);
-//    delay(500);
-//    Serial.print(".");
-  //}
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.println(WiFi.status());
+    Serial.println(WL_DISCONNECTED);
+    delay(500);
+    Serial.print(".");
+  }
 
   Serial.println("");
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
   //Serial.println(WiFi.localIP());
+  
 }
