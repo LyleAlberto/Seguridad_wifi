@@ -11,11 +11,14 @@
 const char* host = "data.sparkfun.com";
 const char* streamId   = "....................";
 const char* privateKey = "....................";
-int ledPin = BUILTIN_LED;
+int ledPin = LED_BUILTIN;
+
 WiFiServer server(80);
 boolean alreadyConnected = false; // whether or not the client was connected previously
 
 void setup() {
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, LOW);
   Serial.begin(115200);
   WiFi.disconnect();
   boolean result = WiFi.softAP("ESPsoftAP_01", "pass-to-soft-AP");
@@ -25,7 +28,7 @@ void setup() {
     Serial.println("Failed!");
   }
   Serial.println("Server started");
-}
+  }
 
 void loop() {
 
@@ -48,7 +51,7 @@ void loop() {
  
   // Match the request
  
-  int value = LOW;
+  
   if (request.indexOf("id") && request.indexOf("pass") != -1) {
     int pos = request.indexOf("id");
     if (request.indexOf("=") != -1) {
@@ -76,8 +79,7 @@ void loop() {
               alreadyConnected = true;
             }
                 
-            digitalWrite(ledPin, HIGH);
-            value = HIGH;
+            
           } 
         }  
       }
@@ -89,6 +91,7 @@ void loop() {
 }
 
 void wificonnect(const char* ssid, const char* password) {
+  Serial.println("Entro al connect");
   Serial.print(ssid);
   Serial.println(password);
   WiFi.begin(ssid, password);
@@ -100,6 +103,7 @@ void wificonnect(const char* ssid, const char* password) {
   }
 
   Serial.println("");
+  digitalWrite(ledPin, HIGH);
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
   //Serial.println(WiFi.localIP());
