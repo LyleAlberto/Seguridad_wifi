@@ -27,8 +27,8 @@ void setup() {
   } else {
     Serial.println("Failed!");
   }
-  Serial.println("Server started");
-  }
+  Serial.println("Server started"); 
+}  
 
 void loop() {
 
@@ -90,12 +90,12 @@ void loop() {
   delay(3000);
 }
 
-void wificonnect(const char* ssid, const char* password) {
+void wificonnect(char* ssid, char* password) {
   Serial.println("Entro al connect");
   Serial.print(ssid);
   Serial.println(password);
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() !=  WL_CONNECTED) {
     Serial.println(WiFi.status());
     Serial.println(WL_DISCONNECTED);
     delay(500);
